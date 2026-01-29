@@ -1,0 +1,25 @@
+# Python virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Streamlit cache
+.streamlit/
+
+# Jupyter / Colab
+.ipynb_checkpoints/
+
+# Logs
+*.log
+
+# Model files (large binaries)
+*.pt
+
+# VS Code settings (optional)
+.vscode/
