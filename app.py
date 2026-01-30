@@ -2,7 +2,7 @@ import streamlit as st
 from PIL import Image
 
 from rnn_intent.infer import IntentPredictor
-from cnn_vision.infer import VisionPredictor
+from cnn_vision_variants import VisionPredictor
 from rnn_sentiment.infer import predict_sentiment
 
 st.set_page_config(page_title="Changi Airport Operation Assistant", layout="wide")
