@@ -3,6 +3,7 @@ from PIL import Image
 
 from rnn_intent.infer import IntentPredictor
 from cnn_vision.infer import VisionPredictor
+from rnn_sentiment.infer import predict_sentiment
 
 st.set_page_config(page_title="Changi Airport Operation Assistant", layout="wide")
 st.title("Changi Airport Operation Assistant (Integrated Demo)")
@@ -15,7 +16,7 @@ def load_models():
 
 intent_model, vision_model = load_models()
 
-tab1, tab2 = st.tabs(["Text Intent", "Image Classifier"])
+tab1, tab2, tab3 = st.tabs(["Text Intent", "Image Classifier", "Text Sentiment"])
 
 with tab1:
     st.subheader("Passenger/Staff Message → Intent")
@@ -31,3 +32,16 @@ with tab2:
         st.image(img, use_container_width=True)
         if st.button("Predict Image"):
             st.success(f"Predicted class: {vision_model.predict(img)}")
+
+with tab3:
+    st.subheader("Passenger Message → Sentiment")
+
+    sentiment_text = st.text_area(
+        "Enter passenger feedback or message",
+        height=120,
+        key="sentiment_input"
+    )
+
+    if st.button("Predict Sentiment"):
+        label, confidence = predict_sentiment(sentiment_text)
+        st.success(f"Predicted sentiment: {label} (confidence {confidence:.2f})")
