@@ -5,7 +5,7 @@ from rnn_intent.infer import IntentPredictor
 from cnn_vision.infer import VisionPredictor
 
 st.set_page_config(page_title="Changi Airport Operation Assistant", layout="wide")
-st.title("Changi Ops Assistant (Integrated Demo)")
+st.title("Changi Airport Operation Assistant (Integrated Demo)")
 
 @st.cache_resource
 def load_models():
