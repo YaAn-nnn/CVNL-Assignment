@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 from torchvision import transforms, models
 from PIL import Image
+import torch.nn.functional as F
 
 class VisionPredictor:
     def __init__(self, ckpt_path: str):
@@ -31,6 +32,9 @@ class VisionPredictor:
         
         with torch.no_grad():
             outputs = self.model(image)
-            _, predicted = torch.max(outputs, 1)
+
+            probabilities = F.softmax(outputs, dim=1)
             
-        return self.classes[predicted.item()]
+            confidence, predicted = torch.max(probabilities, 1)
+            
+        return self.classes[predicted.item()], confidence.item()
