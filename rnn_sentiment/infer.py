@@ -1,3 +1,5 @@
+#python -m streamlit run app.py
+
 import os
 import torch
 import pickle
