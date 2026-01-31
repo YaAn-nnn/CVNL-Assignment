@@ -1,0 +1,5 @@
+Instructions on how to run.
+first have these installed:
+1. pip install torch torchvision tqdm pillow numpy scikit-learn seaborn matplotlib(takes a few minutes)
+2. python.exe -m pip install --upgrade pip 
+3. to confirm if the model can begin training run (python -c "import torch; print(torch.__version__); print('GPU Ready:', torch.cuda.is_available())")
