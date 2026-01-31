@@ -40,9 +40,13 @@ with tab1:
         
         if st.button("Predict Aircraft Variant"):
             with st.spinner("Analyzing fine-grained features..."):
-                # Call your specific prediction logic
-                result = vision_model.predict(img)
-                st.success(f"✈️ Identified Variant: **{result}**")
+                variant, confidence = vision_model.predict(img)
+                
+                st.success(f"✈️ Identified Variant: **{variant}**")
+                st.metric(label="Confidence Score", value=f"{confidence * 100:.2f}%") #
+
+                if confidence < 0.50:
+                    st.warning("Low confidence: The model is seeing features common to multiple variants.")
 
 # --- Braden: SENTIMENT SECTION ---
 with tab2:
