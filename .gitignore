@@ -19,7 +19,7 @@ Thumbs.db
 *.log
 
 # Model files (large binaries)
-*.pt
+
 
 # VS Code settings (optional)
 .vscode/
