@@ -16,8 +16,8 @@ class IntentPredictor:
     def __init__(self, ckpt_path: str):
         ckpt = torch.load(ckpt_path, map_location="cpu")  # deploy checkpoint has no custom classes
 
-        self.stoi = ckpt["stoi"]
-        self.itos = ckpt["itos"]
+        self.stoi = ckpt.get("vocab_stoi")
+        self.itos = ckpt.get("vocab_itos")
         self.label2id = ckpt["label2id"]
         self.id2label = {v: k for k, v in self.label2id.items()}
 

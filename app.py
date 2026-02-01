@@ -2,6 +2,7 @@ import streamlit as st
 from PIL import Image
 from cnn_vision_variants.infer import VisionPredictor
 from rnn_sentiment.infer import predict_sentiment
+from rnn_intent.infer import IntentPredictor
 
 # --------------------------------------------------
 # page config
@@ -20,12 +21,17 @@ st.title("Changi Airport Operation Assistant (Integrated Demo)")
 def load_vision_model():
     return VisionPredictor("cnn_vision_variants/airline_model_best.pt")
 
+@st.cache_resource
+def load_intent_model():
+    return IntentPredictor("rnn_intent/intent_deploy.pt")
+
 vision_model = load_vision_model()
+intent_model = load_intent_model()
 
 # --------------------------------------------------
 # UI Sections
 # --------------------------------------------------
-tab1, tab2 = st.tabs(["Aircraft Identification (CNN)", "Passenger Sentiment (RNN)"])
+tab1, tab2, tab3 = st.tabs(["Aircraft Identification (CNN)", "Passenger Sentiment (RNN)", "Text intent (RNN)"])
 
 # --- Jayden: CNN SECTION ---
 with tab1:
@@ -63,3 +69,13 @@ with tab2:
         else:
             label, confidence = predict_sentiment(sentiment_text)
             st.success(f"Predicted sentiment: {label} (confidence {confidence:.2f})")
+
+with tab3:
+    st.subheader("Passenger/Staff Message → Intent")
+    text = st.text_area("Type a message", height=120)
+
+    if st.button("Predict Intent"):
+        if text.strip() == "":
+            st.warning("Please enter a message first.")
+        else:
+            st.success(f"Predicted intent: {intent_model.predict(text)}")
