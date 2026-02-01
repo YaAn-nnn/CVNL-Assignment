@@ -17,16 +17,3 @@ Thumbs.db
 
 # Logs
 *.log
-
-# Model files (large binaries)
-
-# VS Code settings (optional)
-.vscode/
-
-
-# datasets + models (do not commit)
-data/images/
-models/
-*.pt
-*.pth
-*.pkl
