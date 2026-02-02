@@ -3,6 +3,7 @@ from PIL import Image
 from cnn_vision_variants.infer import VisionPredictor
 from rnn_sentiment.infer import predict_sentiment
 from rnn_intent.infer import IntentPredictor
+from cnn_family_classification.cnn_infer import predict_aircraft_family
 
 # --------------------------------------------------
 # page config
@@ -31,7 +32,12 @@ intent_model = load_intent_model()
 # --------------------------------------------------
 # UI Sections
 # --------------------------------------------------
-tab1, tab2, tab3 = st.tabs(["Aircraft Identification (CNN)", "Passenger Sentiment (RNN)", "Text intent (RNN)"])
+tab1, tab2, tab3, tab4 = st.tabs([
+    "Aircraft Identification (CNN)",
+    "Passenger Sentiment (RNN)",
+    "Text intent (RNN)",
+    "Aircraft Family Classification (CNN)"
+])
 
 # --- Jayden: CNN SECTION ---
 with tab1:
@@ -79,3 +85,28 @@ with tab3:
             st.warning("Please enter a message first.")
         else:
             st.success(f"Predicted intent: {intent_model.predict(text)}")
+
+# --- Yoshi: CNN FAMILY CLASSIFICATION ---
+with tab4:
+    st.subheader("Upload Image → Aircraft Family Classification")
+    st.markdown("Classifies aircraft images into family categories using a custom CNN.")
+
+    uploaded_file = st.file_uploader(
+        "Upload an aircraft image",
+        type=["jpg", "jpeg", "png"],
+        key="family_upload"
+    )
+
+    if uploaded_file:
+        img = Image.open(uploaded_file).convert("RGB")
+        st.image(img, caption="Uploaded Image", use_container_width=True)
+
+        if st.button("Predict Aircraft Family"):
+            with st.spinner("Running CNN inference..."):
+                label, confidence = predict_aircraft_family(img)
+
+            st.success(f"Predicted Aircraft Family: **{label}**")
+            st.metric("Confidence Score", f"{confidence * 100:.2f}%")
+
+            if confidence < 0.5:
+                st.warning("Low confidence prediction. Image may contain overlapping features.")
